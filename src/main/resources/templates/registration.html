@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{css/mustard-ui.min.css}">
+    <title>Registration</title>
+</head>
+<body>
+
+<header>
+    <h1 class="title">Registration</h1>
+    <form method="post">
+        <div style="width: 300px">
+            <div class="form-control">
+                <input type="text" name="name" placeholder="Enter your login"/>
+            </div>
+            <div class="form-control">
+                <input type="password" name="password" placeholder="Enter your password">
+            </div>
+            <div class="form-control">
+                <input type="password" name="confPassword" placeholder="Confirm your password">
+            </div>
+            <div class="align-center">
+                <button style="width: 300px" type="submit" class="button-primary button-large">Create account</button>
+            </div>
+        </div>
+    </form>
+
+    <a style="margin-top: 10px; font-size: x-large" href="/">Home</a>
+
+</header>
+
+<footer></footer>
+</body>
+</html>
