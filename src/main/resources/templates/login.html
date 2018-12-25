@@ -37,12 +37,12 @@
             <div class="form-control">
                 <input type="password" name="password" placeholder="Enter your password">
             </div>
-
+            <div class="align-center">
             <div class="form-control" th:if="${param.error}">
-                Invalid username and password.
+                <p class="validation-error"> Invalid username and password.</p>
             </div>
 
-            <div class="align-center">
+
                 <button style="width: 300px" type="submit" class="button-primary button-large">Sign in</button>
             </div>
         </div>
