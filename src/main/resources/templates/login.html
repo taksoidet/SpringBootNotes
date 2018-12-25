@@ -1,62 +1,78 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" th:href="@{css/mustard-ui.min.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" th:href="@{css/mustard-ui.min.css}">
+
     <title>Notes</title>
 </head>
 <body>
-<nav>
-    <div class="nav-container">
-        <div class="nav-logo">
-            Your Notes
-        </div>
-        <ul class="nav-links">
-            <li><a href="/">Logout</a></li>
-        </ul>
-    </div>
-</nav>
+<header>
+    <h1 class="title">Notes</h1>
+    <h2 class="subtitle">Write your ideas not to forget this</h2>
+
+    <a class="scroll-down" href="#"></a>
+    <script>
+        $(document).ready(function () {
+            $('.scroll-down, .get-started').on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate({
+                    scrollTop: $('section:first-of-type').offset().top
+                }, 300)
+            })
+        })
+    </script>
 
 
-<section class="section-secondary">
+    <form th:action="@{/}" method="post">
+        <div style="width: 300px">
+            <div class="form-control">
+                <input type="text" name="username" placeholder="Enter your login"/>
+            </div>
 
-    <div class="row">
-        <div class="col col-md-6">
-            <div class="card">
-                <h3 class="card-title">Title Date</h3>
-                This is an example of a card. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est quasi ipsam
-                sint alias, nemo. Dolore minus aliquid, modi debitis adipisci vel amet, sit officia placeat?
-                <ul class="card-actions">
-                    <li>
-                        <button class="button-primary">Delete</button>
-                    </li>
-                    <li>
-                        <button class="button-primary">Edit</button>
-                    </li>
-                </ul>
+            <div class="form-control">
+                <input type="password" name="password" placeholder="Enter your password">
+            </div>
+
+            <div class="form-control" th:if="${param.error}">
+                Invalid username and password.
+            </div>
+
+            <div class="align-center">
+                <button style="width: 300px" type="submit" class="button-primary button-large">Sign in</button>
             </div>
         </div>
-        <div class="col col-md-6">
-            <div class="card">
-                <h3 class="card-title">Title Date</h3>
-                This is an example of a card. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est quasi ipsam
-                sint alias, nemo. Dolore minus aliquid, modi debitis adipisci vel amet, sit officia placeat?
-                <ul class="card-actions">
-                    <li>
-                        <button class="button-primary">Delete</button>
-                    </li>
-                    <li>
-                        <button class="button-primary">Edit</button>
-                    </li>
-                </ul>
-            </div>
+    </form>
+    <a style="margin-top: 10px; font-size: x-large" th:href="@{/registration}"> Create an account</a>
+
+</header>
+
+<section>
+
+    <div class="stepper">
+        <div class="step">
+            <p class="step-number">1</p>
+            <p class="step-title">Step Number One</p>
+            <p>Sign in</p>
+
+        </div>
+        <div class="step">
+            <p class="step-number">2</p>
+            <p class="step-title">Step Number Two</p>
+            <p>Create a new note</p>
+        </div>
+        <div class="step">
+            <p class="step-number">3</p>
+            <p class="step-title">Step Number Three</p>
+            <p>Manage your notes</p>
+
         </div>
     </div>
 </section>
-
-
+<footer></footer>
 </body>
 </html>

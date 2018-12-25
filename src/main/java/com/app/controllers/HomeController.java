@@ -13,14 +13,14 @@ public class HomeController {
 
     @GetMapping
     public String getHome() {
-        return "index";
+        return "login";
     }
 
     @PostMapping
-    public String getLogin(@RequestParam(name = "name") String userName,
+    public String getLogin(@RequestParam(name = "username") String userName,
                            @RequestParam(name = "password") String userPass) {
 
-        return "redirect:/login";
+        return "redirect:/main";
     }
 
 

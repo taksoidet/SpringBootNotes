@@ -17,9 +17,10 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String login(@RequestParam(name = "name") String userName, @RequestParam(name = "password") String userPass) {
+    public String login(@RequestParam(name = "name") String userName,
+                        @RequestParam(name = "password") String userPass) {
 
-        return "redirect:/login";
+        return "redirect:/";
     }
 
 }
