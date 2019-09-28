@@ -13,17 +13,20 @@
 
 <header>
     <h1 class="title">Registration</h1>
-    <form method="post">
+    <form method="post" action="#" th:action="@{/registration}" th:object="${user}">
         <div style="width: 300px">
             <div class="form-control">
-                <input type="text" name="name" placeholder="Enter your login"/>
+                <input type="text" th:field="*{name}" placeholder="Enter your login"/>
+                <p class="validation-error" th:if="${#fields.hasErrors('name')}">Login must have contain at least 4 character</p>
             </div>
             <div class="form-control">
-                <input type="password" name="password" placeholder="Enter your password">
+                <input type="password" th:field="*{password}" placeholder="Enter your password">
+                <p class="validation-error" th:if="${#fields.hasErrors('password')}">Password must have contain at least 6 characters</p>
             </div>
             <div class="form-control">
                 <input type="password" name="confPassword" placeholder="Confirm your password">
             </div>
+            <p class="validation-error" th:text="${error}"></p>
             <div class="align-center">
                 <button style="width: 300px" type="submit" class="button-primary button-large">Create account</button>
             </div>

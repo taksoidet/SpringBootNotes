@@ -1,39 +1,42 @@
 package com.app.models;
 
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
-@Getter
-@Setter
+@Data
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", length = 30)
+    @Size(min = 4)
     private String name;
 
-    @Column(name = "password")
+
+    @Size(min = 6)
     private String password;
 
     @Transient
     private String confPassword;
 
-
     public User() {
     }
 
-    @ManyToMany
-    @JoinTable(name = "mapping",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @OneToMany(mappedBy = "user")
+    private Collection<Note> notes;
+
+
 
 }

@@ -2,18 +2,20 @@
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" th:href="@{css/mustard-ui.min.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
     <title>Notes</title>
 </head>
 <body>
 <nav>
     <div class="nav-container">
-        <div class="nav-logo">
-            Your Notes
+
+        <button style="margin-bottom: 0px" class="button-primary" onclick="openCreateForm()">New</button>
+        <div class="nav-logo" th:text="'Your Notes: ' + ${username}">
         </div>
         <ul class="nav-links">
             <li>
@@ -27,38 +29,64 @@
 <section class="section-secondary">
 
     <div class="row">
-        <div class="col col-md-6">
-            <div class="card">
-                <h3 class="card-title">Title Date</h3>
-                This is an example of a card. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est quasi ipsam
-                sint alias, nemo. Dolore minus aliquid, modi debitis adipisci vel amet, sit officia placeat?
+        <div class="col col-md-6" th:each="note: ${notes}">
+            <div class="card" th:id="${note.getId()}">
+                <h3 class="card-title"  th:text="${note.getTitle()}+' ' + ${note.getDate()}">Title Date</h3>
+                <p th:text="${note.getText()}">Text</p>
                 <ul class="card-actions">
                     <li>
-                        <button class="button-primary">Delete</button>
+                        <button class="button-warning" th:onclick="openEditForm(${note.getId()})">Edit</button>
+                        <!--<div class="modal" style="width: 500px">
+                            <div class="modal-content" th:id="editNoteForm+${note.getId()}" style="display: none">
+                                <form th:action="@{/main/edit/{id}(id=${note.getId()})}" method="post">
+                                    <input type="text" name="title" th:value="${note.getTitle()}" required>
+                                    <textarea name="text"  th:text="${note.getText()}" required></textarea>
+                                    <button type="submit" class="button-primary">Edit a Note</button>
+                                    <button type="button" class="button-danger" onclick="closeEditForm()">Cancel</button>
+                                </form>
+                            </div>
+                        </div>-->
                     </li>
                     <li>
-                        <button class="button-primary">Edit</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col col-md-6">
-            <div class="card">
-                <h3 class="card-title">Title Date</h3>
-                This is an example of a card. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est quasi ipsam
-                sint alias, nemo. Dolore minus aliquid, modi debitis adipisci vel amet, sit officia placeat?
-                <ul class="card-actions">
-                    <li>
-                        <button class="button-primary">Delete</button>
-                    </li>
-                    <li>
-                        <button class="button-primary">Edit</button>
+                        <form th:action="@{main/delete/{id}(id=${note.getId()})}" method="post">
+                            <button type="submit" class="button-danger">Delete</button>
+                        </form>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+    <div class="modal" style="width: 500px">
+        <div class="modal-content" id="createNoteForm" style="display: none">
+            <form th:action="@{/main}" method="post">
+                <input type="text" name="title" placeholder="Enter title" required>
+                <textarea name="text" placeholder="Enter text" required></textarea>
+                <button type="submit" class="button-primary">Create a new Note</button>
+                <button type="button" class="button-danger" onclick="closeCreateForm()">Cancel</button>
+            </form>
+        </div>
+    </div>
 </section>
+
+
+<script>
+
+    function openEditForm() {
+        document.getElementById("editNoteForm").style.display = "block";
+    }
+    function closeEditForm() {
+        document.getElementById("editNoteForm").style.display = "none";
+    }
+
+
+    function openCreateForm() {
+        document.getElementById("createNoteForm").style.display = "block";
+    }
+
+    function closeCreateForm() {
+        document.getElementById("createNoteForm").style.display = "none";
+    }
+</script>
 
 
 </body>
