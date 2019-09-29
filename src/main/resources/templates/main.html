@@ -35,7 +35,7 @@
                 <p th:text="${note.getText()}">Text</p>
                 <ul class="card-actions">
                     <li>
-                        <button class="button-warning" th:onclick="openEditForm(${note.getId()})">Edit</button>
+                        <button class="button-warning" th:onclick="|openEditForm('${note.getId()}')|">Edit</button>
                         <!--<div class="modal" style="width: 500px">
                             <div class="modal-content" th:id="editNoteForm+${note.getId()}" style="display: none">
                                 <form th:action="@{/main/edit/{id}(id=${note.getId()})}" method="post">
@@ -57,34 +57,42 @@
         </div>
     </div>
     <div class="modal" style="width: 500px">
-        <div class="modal-content" id="createNoteForm" style="display: none">
-            <form th:action="@{/main}" method="post">
-                <input type="text" name="title" placeholder="Enter title" required>
+        <div class="modal-content" id="noteForm" style="display: none">
+            <form id="form" th:action="@{/main}" method="post">
+                <input type="text" name="title" placeholder="Enter title" value="Новая заметка" required>
                 <textarea name="text" placeholder="Enter text" required></textarea>
                 <button type="submit" class="button-primary">Create a new Note</button>
                 <button type="button" class="button-danger" onclick="closeCreateForm()">Cancel</button>
             </form>
         </div>
     </div>
+
+
 </section>
 
 
-<script>
+<script th:inline="javascript">
 
-    function openEditForm() {
-        document.getElementById("editNoteForm").style.display = "block";
+    function openEditForm(id) {
+        var form=document.getElementById("form");
+        form.action="/main/edit/"+id;
+        document.getElementById("noteForm").style.display = "block";
     }
+
+
     function closeEditForm() {
         document.getElementById("editNoteForm").style.display = "none";
     }
 
 
     function openCreateForm() {
-        document.getElementById("createNoteForm").style.display = "block";
+        var form=document.getElementById("form");
+        form.action="/main";
+        document.getElementById("noteForm").style.display = "block";
     }
 
     function closeCreateForm() {
-        document.getElementById("createNoteForm").style.display = "none";
+        document.getElementById("noteForm").style.display = "none";
     }
 </script>
 
