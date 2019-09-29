@@ -10,7 +10,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <title>Notes</title>
 </head>
-<body>
+<body style="background-color: #A8C1C9">
 <nav>
     <div class="nav-container">
 
@@ -26,26 +26,17 @@
 </nav>
 
 
-<section class="section-secondary">
+<section class="section-secondary" style="background-color: #A8C1C9">
 
     <div class="row">
         <div class="col col-md-6" th:each="note: ${notes}">
             <div class="card" th:id="${note.getId()}">
-                <h3 class="card-title"  th:text="${note.getTitle()}+' ' + ${note.getDate()}">Title Date</h3>
-                <p th:text="${note.getText()}">Text</p>
+                <h3 class="card-actions" th:id="|title-${note.getId()}|"  th:text="${note.getTitle()}">Title</h3>
+                <h6 class="card-actions" th:text="${note.getDate()}">Date</h6>
+                <p th:id="|text-${note.getId()}|" th:text="${note.getText()}">Text</p>
                 <ul class="card-actions">
                     <li>
                         <button class="button-warning" th:onclick="|openEditForm('${note.getId()}')|">Edit</button>
-                        <!--<div class="modal" style="width: 500px">
-                            <div class="modal-content" th:id="editNoteForm+${note.getId()}" style="display: none">
-                                <form th:action="@{/main/edit/{id}(id=${note.getId()})}" method="post">
-                                    <input type="text" name="title" th:value="${note.getTitle()}" required>
-                                    <textarea name="text"  th:text="${note.getText()}" required></textarea>
-                                    <button type="submit" class="button-primary">Edit a Note</button>
-                                    <button type="button" class="button-danger" onclick="closeEditForm()">Cancel</button>
-                                </form>
-                            </div>
-                        </div>-->
                     </li>
                     <li>
                         <form th:action="@{main/delete/{id}(id=${note.getId()})}" method="post">
@@ -57,12 +48,12 @@
         </div>
     </div>
     <div class="modal" style="width: 500px">
-        <div class="modal-content" id="noteForm" style="display: none">
+        <div class="modal-content| card-actions" id="noteForm" style="display: none">
             <form id="form" th:action="@{/main}" method="post">
-                <input type="text" name="title" placeholder="Enter title" value="Новая заметка" required>
-                <textarea name="text" placeholder="Enter text" required></textarea>
+                <input type="text" id="title" name="title" placeholder="Enter title" value="Новая заметка" required>
+                <textarea id="text" name="text" placeholder="Enter text" required></textarea>
                 <button type="submit" class="button-primary">Create a new Note</button>
-                <button type="button" class="button-danger" onclick="closeCreateForm()">Cancel</button>
+                <button style="float: right" type="button" class="button-danger" onclick="closeCreateForm()">Cancel</button>
             </form>
         </div>
     </div>
@@ -71,11 +62,13 @@
 </section>
 
 
-<script th:inline="javascript">
+<script>
 
     function openEditForm(id) {
         var form=document.getElementById("form");
         form.action="/main/edit/"+id;
+        document.getElementById("title").value=document.getElementById("title-"+id).innerText;
+        document.getElementById("text").value=document.getElementById("text-"+id).innerText;
         document.getElementById("noteForm").style.display = "block";
     }
 

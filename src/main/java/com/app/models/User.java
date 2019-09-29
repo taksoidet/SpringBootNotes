@@ -1,20 +1,16 @@
 package com.app.models;
 
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -37,6 +33,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Collection<Note> notes;
 
+    @Override
+    public String toString(){
+        return this.getName();
+    }
 
 
 }
