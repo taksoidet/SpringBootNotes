@@ -67,8 +67,8 @@
     function openEditForm(id) {
         var form=document.getElementById("form");
         form.action="/main/edit/"+id;
-        document.getElementById("title").value=document.getElementById("title-"+id).innerText;
-        document.getElementById("text").value=document.getElementById("text-"+id).innerText;
+        document.getElementById("title").value=document.getElementById("title-"+id).innerHTML;
+        document.getElementById("text").value=document.getElementById("text-"+id).innerHTML;
         document.getElementById("noteForm").style.display = "block";
     }
 
