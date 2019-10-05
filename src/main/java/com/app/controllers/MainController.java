@@ -1,6 +1,7 @@
 package com.app.controllers;
 
 import com.app.dao.NoteDAO;
+import com.app.dao.NoteFolderDAO;
 import com.app.dao.UserDAO;
 import com.app.models.Note;
 import com.app.models.User;
@@ -24,11 +25,13 @@ public class MainController {
 
     private NoteDAO noteDAO;
     private UserDAO userDAO;
+    private NoteFolderDAO noteFolderDAO;
 
     @Autowired
-    public MainController(NoteDAO noteDAO, UserDAO userDAO, HttpSession session) {
+    public MainController(NoteDAO noteDAO, UserDAO userDAO, NoteFolderDAO noteFolderDAO) {
         this.noteDAO = noteDAO;
         this.userDAO = userDAO;
+        this.noteFolderDAO = noteFolderDAO;
     }
 
     public Long getUserIdFromSession(HttpSession session) {
@@ -41,7 +44,7 @@ public class MainController {
         User user = userOptional.get();
 //        Collection<Note> notes = user.getNotes();
 //        model.addAttribute("notes", notes);
-//        model.addAttribute("username", user.getName());
+        model.addAttribute("username", user.getName());
         return "main";
     }
 
