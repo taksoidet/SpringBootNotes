@@ -31,7 +31,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
-    private Collection<Note> notes;
+    private Collection<NoteFolder> noteFolders;
 
     @Override
     public String toString(){

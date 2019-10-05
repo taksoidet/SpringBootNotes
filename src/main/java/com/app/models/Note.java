@@ -21,8 +21,8 @@ public class Note {
     private String date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "note_folder_id")
+    private NoteFolder noteFolder;
 
     @Override
     public String toString(){

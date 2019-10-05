@@ -4,8 +4,6 @@ import com.app.dao.NoteDAO;
 import com.app.dao.UserDAO;
 import com.app.models.Note;
 import com.app.models.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -25,7 +22,6 @@ import java.util.Optional;
 public class MainController {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
     private NoteDAO noteDAO;
     private UserDAO userDAO;
 
@@ -43,9 +39,9 @@ public class MainController {
     public String getLogin(Model model, HttpSession session) {
         Optional<User> userOptional = userDAO.findById(getUserIdFromSession(session));
         User user = userOptional.get();
-        Collection<Note> notes = user.getNotes();
-        model.addAttribute("notes", notes);
-        model.addAttribute("username", user.getName());
+//        Collection<Note> notes = user.getNotes();
+//        model.addAttribute("notes", notes);
+//        model.addAttribute("username", user.getName());
         return "main";
     }
 
@@ -56,8 +52,8 @@ public class MainController {
         note.setTitle(title);
         note.setDate(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
         User user = userDAO.findById(getUserIdFromSession(session)).get();
-        note.setUser(user);
-        noteDAO.save(note);
+//        note.setUser(user);
+//        noteDAO.save(note);
         return "redirect:/main";
     }
 
