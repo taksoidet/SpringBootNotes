@@ -40,6 +40,6 @@ public class AuthenticationSuccessHandlerService implements AuthenticationSucces
             session.setAttribute("user_id", user.getId());
             LOGGER.info(username + " successfully logged in");
         }
-        response.sendRedirect("/main");
+        response.sendRedirect("/main/id/0");
     }
 }

@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" th:href="@{css/mustard-ui.min.css}">
+    <link rel="stylesheet" href="/css/mustard-ui.min.css" th:href="@{/css/mustard-ui.min.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <title>Notes</title>
 </head>
@@ -39,7 +39,8 @@
                         <button class="button-warning" th:onclick="|openEditForm('${note.getId()}')|">Edit</button>
                     </li>
                     <li>
-                        <form th:action="@{main/delete/{id}(id=${note.getId()})}" method="post">
+                        <form th:action="@{__${#httpServletRequest.requestURI}__/delete/{id}(id=${note.getId()})}"
+                              method="post">
                             <button type="submit" class="button-danger">Delete</button>
                         </form>
                     </li>
@@ -49,7 +50,7 @@
     </div>
     <div class="modal" style="width: 500px">
         <div class="modal-content| card-actions" id="noteForm" style="display: none">
-            <form id="form" th:action="@{/main}" method="post">
+            <form id="form" method="post">
                 <input type="text" id="title" name="title" placeholder="Enter title" value="Новая заметка" required>
                 <textarea id="text" name="text" placeholder="Enter text" required></textarea>
                 <button type="submit" class="button-primary">Create a new Note</button>
@@ -64,9 +65,10 @@
 
 <script>
 
+
     function openEditForm(id) {
         var form=document.getElementById("form");
-        form.action="/main/edit/"+id;
+        form.action+="/edit/"+id;
         document.getElementById("title").value=document.getElementById("title-"+id).innerHTML;
         document.getElementById("text").value=document.getElementById("text-"+id).innerHTML;
         document.getElementById("noteForm").style.display = "block";
@@ -75,7 +77,7 @@
 
     function openCreateForm() {
         var form=document.getElementById("form");
-        form.action="/main";
+        form.action="";
         document.getElementById("title").value="Новая заметка";
         document.getElementById("text").value="";
         document.getElementById("noteForm").style.display = "block";

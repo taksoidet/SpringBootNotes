@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -34,14 +35,18 @@ public class RegistrationController {
         this.encoder = encoder;
     }
 
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        model.addAttribute("user", new User());
+    }
+
 
     @GetMapping
-    public String getRegistration(Model model) {
+    public String getRegistration() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             return "redirect:/main";
         }
-        model.addAttribute("user", new User());
         return "registration";
     }
 
@@ -49,16 +54,13 @@ public class RegistrationController {
     public String registration(@Valid User user, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "registration";
-        }
-        if (userDAO.findByName(user.getName()) != null) {
+        } else if (userDAO.findByName(user.getName()) != null) {
             model.addAttribute("error", "This username is exist");
             return "registration";
-        }
-        if (!user.getPassword().equals(user.getConfPassword())) {
+        } else if (!user.getPassword().equals(user.getConfPassword())) {
             model.addAttribute("error", "Passwords doesn't match");
             return "registration";
         }
-
         user.setPassword(encoder.encode(user.getPassword()));
         userDAO.save(user);
         NoteFolder noteFolder = new NoteFolder();

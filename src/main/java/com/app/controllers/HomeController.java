@@ -16,7 +16,7 @@ public class HomeController {
     public String getHome() {
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
         if(!(authentication instanceof AnonymousAuthenticationToken)){
-            return "redirect:/main";
+            return "redirect:/main/id/0";
         }
         return "login";
     }

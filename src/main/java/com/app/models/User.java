@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,7 +31,7 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user")
-    private Collection<NoteFolder> noteFolders;
+    private List<NoteFolder> noteFolders;
 
     @Override
     public String toString(){

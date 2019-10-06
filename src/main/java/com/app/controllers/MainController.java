@@ -4,22 +4,22 @@ import com.app.dao.NoteDAO;
 import com.app.dao.NoteFolderDAO;
 import com.app.dao.UserDAO;
 import com.app.models.Note;
+import com.app.models.NoteFolder;
 import com.app.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/main")
+@RequestMapping("/main/id")
 public class MainController {
 
 
@@ -38,41 +38,52 @@ public class MainController {
         return (Long) session.getAttribute("user_id");
     }
 
-    @GetMapping
-    public String getLogin(Model model, HttpSession session) {
+    @ModelAttribute
+    public void addAttributes(Model model, HttpSession session) {
+        User user = userDAO.findById(getUserIdFromSession(session)).get();
+        model.addAttribute("username", user.getName());
+    }
+
+    @GetMapping(value = "{folderId}")
+    public String getLogin(@PathVariable Integer folderId, Model model, HttpSession session) {
         Optional<User> userOptional = userDAO.findById(getUserIdFromSession(session));
         User user = userOptional.get();
-//        Collection<Note> notes = user.getNotes();
-//        model.addAttribute("notes", notes);
-        model.addAttribute("username", user.getName());
+        List<NoteFolder> noteFolders = user.getNoteFolders();
+        if (folderId > noteFolders.size() - 1) {
+            folderId = 0;
+        }
+        Collection<Note> notes = noteFolders.get(folderId).getNotes();
+        model.addAttribute("notes", notes);
         return "main";
     }
 
-    @PostMapping
-    public String createNote(String title, String text, HttpSession session) {
+    @PostMapping(value = "{folderId}")
+    public String createNote(@PathVariable Integer folderId, String title, String text, HttpSession session) {
         Note note = new Note();
         note.setText(text);
         note.setTitle(title);
         note.setDate(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
         User user = userDAO.findById(getUserIdFromSession(session)).get();
-//        note.setUser(user);
-//        noteDAO.save(note);
-        return "redirect:/main";
+        List<NoteFolder> noteFolders = user.getNoteFolders();
+        NoteFolder noteFolder = noteFolders.get(folderId);
+        note.setNoteFolder(noteFolder);
+        noteDAO.save(note);
+        return "redirect:/main/id/" + folderId;
     }
 
-    @PostMapping(value = "delete/{id}")
-    public String deleteNote(@PathVariable String id) {
-        noteDAO.deleteById(Long.valueOf(id));
-        return "redirect:/main";
+    @PostMapping(value = "{folderId}/delete/{id}")
+    public String deleteNote(@PathVariable Integer folderId, @PathVariable Long id) {
+        noteDAO.deleteById(id);
+        return "redirect:/main/id/" + folderId;
     }
 
-    @PostMapping(value = "edit/{id}")
-    public String editNote(@PathVariable String id, String title, String text) {
-        Note note = noteDAO.findById(Long.valueOf(id)).get();
+    @PostMapping(value = "{folderId}/edit/{id}")
+    public String editNote(@PathVariable Integer folderId, @PathVariable Long id, String title, String text) {
+        Note note = noteDAO.findById(id).get();
         note.setTitle(title);
         note.setText(text);
         noteDAO.save(note);
-        return "redirect:/main";
+        return "redirect:/main/id/" + folderId;
     }
 
 
