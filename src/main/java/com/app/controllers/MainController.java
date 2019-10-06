@@ -96,7 +96,7 @@ public class MainController {
         noteFolder.setUser(user);
         user.getNoteFolders().add(noteFolder);
         noteFolderDAO.save(noteFolder);
-        return "redirect:/main/id/" + noteFolder.getId();
+        return "redirect:/main/id/" + (noteFolder.getId() - 1);
     }
 
 
