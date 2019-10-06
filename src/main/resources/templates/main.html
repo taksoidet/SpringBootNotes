@@ -14,7 +14,7 @@
 <nav>
     <div class="nav-container">
 
-        <button style="margin-bottom: 0px" class="button-primary" onclick="openCreateForm()">New</button>
+        <button style="margin-bottom: 0px" class="button-primary button-shadow" onclick="openCreateForm()">New</button>
         <div class="nav-logo" th:text="'Your Notes: ' + ${username}">
         </div>
         <ul class="nav-links">
@@ -25,23 +25,35 @@
     </div>
 </nav>
 
+<div class="row">
+    <div class="col col-sm-2" th:each="noteFolder : ${note_folders}">
+        <a th:href="@{/main/id/{folderid}(folderid=${noteFolder.getId()-1})}">
+            <button class="button-primary button-shadow" th:text="${noteFolder.getTitle()}"></button>
+        </a>
+    </div>
+    <form class="col col-sm-2" th:action="@{createfolder}" method="post">
+        <button type="submit" class="button-primary button-shadow">Create new Folder</button>
+    </form>
+</div>
 
 <section class="section-secondary">
 
     <div class="row">
         <div class="col col-md-6" th:each="note: ${notes}">
             <div class="card" th:id="${note.getId()}">
-                <h3 class="card-actions" th:id="|title-${note.getId()}|"  th:text="${note.getTitle()}">Title</h3>
+                <h3 class="card-actions" th:id="|title-${note.getId()}|" th:text="${note.getTitle()}">Title</h3>
                 <h6 class="card-actions" th:text="${note.getDate()}">Date</h6>
                 <p th:id="|text-${note.getId()}|" th:text="${note.getText()}">Text</p>
                 <ul class="card-actions">
                     <li>
-                        <button class="button-warning" th:onclick="|openEditForm('${note.getId()}')|">Edit</button>
+                        <button class="button-warning button-shadow" th:onclick="|openEditForm('${note.getId()}')|">
+                            Edit
+                        </button>
                     </li>
                     <li>
                         <form th:action="@{__${#httpServletRequest.requestURI}__/delete/{id}(id=${note.getId()})}"
                               method="post">
-                            <button type="submit" class="button-danger">Delete</button>
+                            <button type="submit" class="button-danger button-shadow">Delete</button>
                         </form>
                     </li>
                 </ul>
@@ -86,6 +98,7 @@
     function closeForm() {
         document.getElementById("noteForm").style.display = "none";
     }
+
 </script>
 
 

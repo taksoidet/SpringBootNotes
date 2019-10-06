@@ -14,6 +14,10 @@
     animation-name: slideIn;
     animation-duration: 0.4s
 }
+
+.button-shadow {
+  box-shadow: 0 2px 4px gray;
+}
 /*
 .modal {
     display: none; !* Hidden by default *!

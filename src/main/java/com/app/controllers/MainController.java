@@ -42,6 +42,8 @@ public class MainController {
     public void addAttributes(Model model, HttpSession session) {
         User user = userDAO.findById(getUserIdFromSession(session)).get();
         model.addAttribute("username", user.getName());
+        List<NoteFolder> noteFolders = user.getNoteFolders();
+        model.addAttribute("note_folders", noteFolders);
     }
 
     @GetMapping(value = "{folderId}")
@@ -84,6 +86,17 @@ public class MainController {
         note.setText(text);
         noteDAO.save(note);
         return "redirect:/main/id/" + folderId;
+    }
+
+    @PostMapping(value = "createfolder")
+    public String createFolder(HttpSession session) {
+        User user = userDAO.findById(getUserIdFromSession(session)).get();
+        NoteFolder noteFolder = new NoteFolder();
+        noteFolder.setTitle("New folder");
+        noteFolder.setUser(user);
+        user.getNoteFolders().add(noteFolder);
+        noteFolderDAO.save(noteFolder);
+        return "redirect:/main/id/" + noteFolder.getId();
     }
 
 
