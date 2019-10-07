@@ -56,6 +56,7 @@ public class MainController {
         }
         Collection<Note> notes = noteFolders.get(folderId).getNotes();
         model.addAttribute("notes", notes);
+        model.addAttribute("folderId", folderId);
         return "main";
     }
 

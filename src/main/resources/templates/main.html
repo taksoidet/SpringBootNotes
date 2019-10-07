@@ -27,8 +27,10 @@
 
 <div class="row">
     <div class="col col-sm-2" th:each="noteFolder : ${note_folders}">
+        <!--class="button-primary button-shadow button-purple"-->
         <a th:href="@{/main/id/{folderid}(folderid=${noteFolder.getId()-1})}">
-            <button class="button-primary button-shadow" th:text="${noteFolder.getTitle()}"></button>
+            <button th:class="${noteFolder.getId()-1}==${folderId} ? 'button-primary button-round button-purple button-shadow' : 'button-shadow button-primary button-purple'"
+                    th:text="${noteFolder.getTitle()}"></button>
         </a>
     </div>
     <form class="col col-sm-2" th:action="@{createfolder}" method="post">
